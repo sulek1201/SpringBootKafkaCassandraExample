@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+
+  kafka-app:
+    image: spotify/kafka
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    hostname: case-kafka-kafein
+    container_name: case-kafka-kafein
+    environment:
+      - "ADVERTISED_HOST=case-kafka-kafein"
+      - "ADVERTISED_PORT=9092"
+      - "AUTO_CREATE_TOPICS=true"
+    command: >
+      bash -c
+      "(sleep 15s &&
+      /opt/kafka_2.11-0.10.1.0/bin/kafka-topics.sh
+      --create
+      --zookeeper
+      case-kafka-kafein:2181 --replication-factor 1 --partitions 1
+      --topic kafein-kafka-topic &) && (supervisord -n)"
+
+  springboot-app:
+    container_name: app-sulek
+    ports:
+      - 8080:8080
+    build:
+      context: .
+      args:
+        JAR_FILE: /kafein-case.jar
+    restart: always
+    environment:
+      - spring.kafka.bootstrap-servers=case-kafka-kafein:9092
+      - kafka.server.address=case-kafka-kafein:9092
+
+  cassandradb:
+    image: cassandra
+    container_name: cassandra
+    ports:
+      - "9042:9042"

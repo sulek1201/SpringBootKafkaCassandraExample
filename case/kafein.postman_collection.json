@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "d8e9cc3d-a68c-4b2f-948e-51587c2850ce",
+		"name": "kafein",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Anıl\",\r\n    \"surname\": \"Şülekoğlu\",\r\n    \"followerList\": [\r\n        1,\r\n        2,\r\n        3\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/createUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
